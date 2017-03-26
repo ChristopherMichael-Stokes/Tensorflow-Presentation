@@ -1,1 +1,0 @@
-In twitterCreds.txt, place twitter consumer key and consumer secrete on seperate lines, and in that order
