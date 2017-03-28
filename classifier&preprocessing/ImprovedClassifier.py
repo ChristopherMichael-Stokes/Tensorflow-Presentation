@@ -62,10 +62,12 @@ class TweetClassifier:
 		return network
 
 	def train(self,network):
-		model = tflearn.DNN(network,tensorboard_verbose=0,
+		model = tflearn.DNN(network,
+			tensorboard_verbose=0,tensorboard_dir='tflearn_logs/',
 			checkpoint_path='checkpoints/ImprovedModel.tfl.ckpt',
 			best_checkpoint_path='bestCheckpoints/ImprovedModel.tfl.ckpt')
-
+		
+		tf.summary.FileWriter('/tflearn_logs', graph=tf.get_default_graph())
 		model.fit(self.text,self.labels,validation_set=0.15,batch_size=256,
 			n_epoch=100,show_metric=True)
 
@@ -74,7 +76,7 @@ class TweetClassifier:
 	def loadModel(self):
 		#model = Evaluator(buildNet())
 		model = tflearn.DNN(self.buildNet())
-		model.load('./ImprovedModel.tfl')
+		model.load('./ImprovedModel.tfl',weights_only=False)
 		labelIndices = ["london\t","birmingham","manchester","glasgow","newcastle","sheffield","los angeles","new york"]
 		while True:
 			tweet=input('\nType in a tweet:\n')
