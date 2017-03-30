@@ -73,6 +73,7 @@ class TweetClassifier:
 
 		model.save('ImprovedModel.tfl')
 
+	'''
 	def loadModel(self):
 		#model = Evaluator(buildNet())
 		model = tflearn.DNN(self.buildNet())
@@ -89,6 +90,15 @@ class TweetClassifier:
 
 			for i in range(0,labels.size):
 				print("{0}:\t\t\t%{1}".format(labelIndices[i],labels[0][i]))
+	'''
+				
+	def loadModel(self):
+		self.model = tflearn.DNN(self.buildNet())
+		self.model.load('./ImprovedModel.tfl',weights_only=False)
+
+	def predict(self, tweet):
+		tweet = self.pre.singleInput(tweet)
+		return np.asarray(np.multiply(self.model.predict(tweet),100),dtype=np.float32)
 
 def main():
 	tc=TweetClassifier()
