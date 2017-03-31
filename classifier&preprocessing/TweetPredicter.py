@@ -4,7 +4,7 @@ from ImprovedClassifier import TweetClassifier
 from preprocessingTest import ProcessInput
 import numpy as np
 
-class TweetPredicter:
+class TweetPredictor:
   
   def __init__(self):
     self.tc = TweetClassifier()
@@ -45,20 +45,23 @@ class TweetPredicter:
         stdscr.addstr(j,i,self.labelIndices[step])
         stdscr.addstr(j,i+20,str(labels[0][step]))  
 
+      j += 2
+      stdscr.addstr(j,i,"press escape to quit, or any key to continue")
       stdscr.refresh()
       x = stdscr.getch()
       if (x == 27):
         break
 
-    
-      
-
-
 def main():
-  tp = TweetPredicter()
-  tp.startPredicting()
-  curses.echo()
-  curses.endwin()
+  tp = TweetPredictor()
+  try:
+    wrapper(tp.startPredicting())
+  except (RuntimeError, Exception, KeyboardInterrupt):
+    print("program interrupted, coming to a halt")
+  finally:
+    curses.echo()
+    curses.endwin()
 
 if __name__ == "__main__":
   main()
+
